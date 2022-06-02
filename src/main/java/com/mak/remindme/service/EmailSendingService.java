@@ -1,8 +1,10 @@
-package com.mak.reminder.service;
+package com.mak.remindme.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class EmailSendingService {
 
@@ -13,15 +15,14 @@ public class EmailSendingService {
         this.javaMailSender = javaMailSender;
     }
 
-    public String sendSimpleMail(Email email)
+    public void sendSimpleMail(Email email)
     {
         try {
             javaMailSender.send(email.getMailMessage());
-            return "Mail Sent Successfully...";
         }
 
         catch (Exception e) {
-            return "Error while Sending Mail";
+            log.error("Error while sending the email {}", e.getMessage());
         }
     }
 

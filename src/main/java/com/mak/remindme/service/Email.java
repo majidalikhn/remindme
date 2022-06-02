@@ -1,6 +1,6 @@
-package com.mak.reminder.service;
+package com.mak.remindme.service;
 
-import com.mak.reminder.dto.EmailDetails;
+import com.mak.remindme.dto.EmailDetails;
 import org.springframework.mail.SimpleMailMessage;
 
 public interface Email {

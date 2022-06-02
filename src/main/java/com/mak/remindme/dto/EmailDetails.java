@@ -1,4 +1,4 @@
-package com.mak.reminder.dto;
+package com.mak.remindme.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
