@@ -1,6 +1,6 @@
 package com.mak.remindme.service;
 
-import com.mak.remindme.dto.EmailDetails;
+import com.mak.remindme.dto.EmailDetailsDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
@@ -22,11 +22,11 @@ public class DOBEmailService implements Email {
     }
 
     @Override
-    public void setMailMessage(EmailDetails emailDetails) {
+    public void setMailMessage(EmailDetailsDto emailDetails) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(sender);
         mailMessage.setTo(emailDetails.getRecipient());
-        mailMessage.setText(emailDetails.getMsgBody());
+        mailMessage.setText(emailDetails.getMessageBody());
         mailMessage.setSubject(emailDetails.getSubject());
         this.mailMessage = mailMessage;
     }

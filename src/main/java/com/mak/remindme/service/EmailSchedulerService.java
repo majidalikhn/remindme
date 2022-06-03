@@ -1,5 +1,6 @@
 package com.mak.remindme.service;
 
+import com.mak.remindme.repository.EmailDetailsServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -8,24 +9,28 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailSchedulerService {
 
-    private final EmailSendingService emailSendingService;
-    private final EmailDetailsListService emailUsersService;
+    private final EmailSenderService emailSendingService;
+    private final EmailDetailsServiceImpl emailDetailsListService;
     private final DOBEmailService dobEmailService;
 
-    public EmailSchedulerService(EmailSendingService emailSendingService, EmailDetailsListService emailUsersService, DOBEmailService dobEmailService) {
+    public EmailSchedulerService(EmailSenderService emailSendingService, EmailDetailsServiceImpl emailDetailsListService, DOBEmailService dobEmailService) {
         this.emailSendingService = emailSendingService;
-        this.emailUsersService = emailUsersService;
+        this.emailDetailsListService = emailDetailsListService;
         this.dobEmailService = dobEmailService;
     }
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(cron = "0 0 0 * * ?")
     public void scheduleEmail()
     {
         log.info("Sending email");
-        emailUsersService.fetchEmailDetailsList().forEach(emailDetails -> {
+        if (!emailDetailsListService.fetchEmailDetails().isEmpty()) {
+            emailDetailsListService.fetchEmailDetails().forEach(emailDetails -> {
+                if (DateCalculaterService.isToday(emailDetails.getEmailSendingDate())) {
                     dobEmailService.setMailMessage(emailDetails);
                     emailSendingService.sendSimpleMail(dobEmailService);
-        });
+                }
+            });
+        }
         log.info("Successfully sent emails");
     }
 

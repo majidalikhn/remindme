@@ -6,12 +6,12 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class EmailSendingService {
+public class EmailSenderService {
 
 
     private final JavaMailSender javaMailSender;
 
-    public EmailSendingService(JavaMailSender javaMailSender) {
+    public EmailSenderService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
 
